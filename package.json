@@ -6,11 +6,11 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
     "antd": "^4.19.2",
+    "dayjs": "^1.10.8",
     "lodash.debounce": "^4.0.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,8 +47,21 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.1",
     "@types/lodash.debounce": "^4.0.6",
     "@types/redux-logger": "^3.0.9",
+    "jest": "^27.5.1",
     "redux-logger": "^3.0.6"
+  },
+  "jest": {
+    "testRegex": "__test__/.*.test\\.ts$",
+    "coverageThreshold": {
+      "global": {
+        "statements": "80.5",
+        "functions": 90
+      }
+    },
+    "collectCoverage": true
   }
 }

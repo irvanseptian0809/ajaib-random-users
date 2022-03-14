@@ -1,6 +1,7 @@
 import { ofType } from 'redux-observable'
 import { of } from 'rxjs'
 import { mergeMap, catchError } from 'rxjs/operators'
+import dayjs from 'dayjs'
 
 import {
   USER_LIST_FETCH,
@@ -30,7 +31,7 @@ export function userListFetchEpic(action$: any, state$: any, { api }: any) {
               name: `${item.name.title} ${item.name.first} ${item.name.last}`,
               email: item.email,
               gender: item.gender,
-              registered: item.registered.date,
+              registered: dayjs(item.registered.date).format('DD-MM-YYYY HH:MM'),
 
             }
           })

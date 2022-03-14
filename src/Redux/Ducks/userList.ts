@@ -87,7 +87,7 @@ const reducer = createReducer(INITIAL_STATE, {
 export const userListFetch = () => ({
   type: USER_LIST_FETCH,
 })
-export const userListFetchSuccess = (payload: interfaceUser) => ({
+export const userListFetchSuccess = (payload: interfaceUser[]) => ({
   type: USER_LIST_FETCH_SUCCESS,
   payload,
 })
