@@ -5,13 +5,14 @@ import { mergeMap, catchError } from 'rxjs/operators'
 import {
   USER_LIST_FETCH,
   USER_LIST_QUERY,
+  USER_LIST_QUERY_RESET,
   userListFetchSuccess,
   userListFetchFailed,
 } from '../Ducks/userList'
 
 export function userListFetchEpic(action$: any, state$: any, { api }: any) {
   return action$.pipe(
-    ofType(USER_LIST_FETCH, USER_LIST_QUERY),
+    ofType(USER_LIST_FETCH, USER_LIST_QUERY, USER_LIST_QUERY_RESET),
     mergeMap(() =>
       api({
         endpoint: {
@@ -22,7 +23,19 @@ export function userListFetchEpic(action$: any, state$: any, { api }: any) {
           ...state$.value.userList.query,
         }
       }).pipe(
-        mergeMap((response: any) => of(userListFetchSuccess(response.results))),
+        mergeMap((response: any) => {
+          const userListResponse = response.results.map((item: any) => {
+            return {
+              username: item.login.username,
+              name: `${item.name.title} ${item.name.first} ${item.name.last}`,
+              email: item.email,
+              gender: item.gender,
+              registered: item.registered.date,
+
+            }
+          })
+          return of(userListFetchSuccess(userListResponse))
+        }),
         catchError(() => of(userListFetchFailed('Failed Fetching Data'))),
       )
     ),

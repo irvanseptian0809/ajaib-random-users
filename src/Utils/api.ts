@@ -24,7 +24,9 @@ function generateUrl(params: string[] = [], query?: interfaceQuery | any, api?: 
   if (query) {
     const queryParam = new URLSearchParams()
     Object.keys(query).forEach((key: any) => {
-      queryParam.append(key, query[key])
+      if (query[key] !== undefined && query[key] !== '') {
+        queryParam.append(key, query[key])
+      }
     })
     endpoint = `${endpoint}?${queryParam.toString()}`
   }

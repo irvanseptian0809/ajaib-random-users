@@ -5,22 +5,14 @@ export const USER_LIST_FETCH_SUCCESS = 'USER_LIST_FETCH_SUCCESS'
 export const USER_LIST_FETCH_FAILED = 'USER_LIST_FETCH_FAILED'
 
 export const USER_LIST_QUERY = 'USER_LIST_QUERY'
+export const USER_LIST_QUERY_RESET = 'USER_LIST_QUERY_RESET'
 
 export interface interfaceUser {
-  gender: string,
-  id: string,
-  name: {
-    title: string,
-    first: string,
-    last: string,
-  },
+  username: string,
+  name: string,
   email: string,
-  registered: {
-    date: string,
-  },
-  login: {
-    username: string,
-  }
+  gender: string,
+  registered: string,
 }
 
 export interface interfaceQuery {
@@ -31,7 +23,7 @@ export interface interfaceQuery {
   gender?: string | undefined,
   keyword?: string | undefined,
   sortBy?: string | undefined,
-  sordOrder?: string | undefined,
+  sortOrder?: any,
 }
 
 export interface interfaceUserList {
@@ -52,7 +44,7 @@ export const INITIAL_STATE: interfaceUserList = {
     gender: undefined,
     keyword: undefined,
     sortBy: undefined,
-    sordOrder: undefined,
+    sortOrder: undefined,
   },
   isLoading: false,
   isError: false,
@@ -79,10 +71,16 @@ const reducer = createReducer(INITIAL_STATE, {
 
   [USER_LIST_QUERY]: (state: any, payload: interfaceQuery) => ({
     ...state,
+    isLoading: true,
     query: {
       ...state.query,
       ...payload,
     }
+  }),
+  [USER_LIST_QUERY_RESET]: (state: any, payload: interfaceQuery) => ({
+    ...state,
+    isLoading: true,
+    query: INITIAL_STATE.query
   }),
 })
 
@@ -101,6 +99,9 @@ export const userListFetchFailed = (payload: string) => ({
 export const userListQuery = (payload: interfaceQuery) => ({
   type: USER_LIST_QUERY,
   payload,
+})
+export const userListQueryReset = () => ({
+  type: USER_LIST_QUERY_RESET,
 })
 
 export default reducer
