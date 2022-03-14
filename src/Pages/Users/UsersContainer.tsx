@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import debounce from 'lodash.debounce'
 import { userListFetch, userListQuery, userListQueryReset } from '../../Redux/Ducks/userList'
@@ -9,6 +9,7 @@ const UsersContainer = () => {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state.userList)
 
+  const [keyword, setKeyword] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<'ascend' | 'descend' | undefined>(undefined);
 
@@ -36,15 +37,18 @@ const UsersContainer = () => {
     }))
   }
 
-  const handleSearch = (keyword: string) => {
+  const handleSearch = (payload: string) => {
+    setKeyword(payload);
     dispatch(userListQuery({
-      keyword,
+      keyword: payload,
     }))
   }
 
-  const handleSearchDebounce = debounce((keyword: string) => {
-    handleSearch(keyword)
-  }, 5000)
+  const handleDebounce = useMemo(() => debounce((payload: string) => {
+    dispatch(userListQuery({
+      keyword: payload,
+    }))
+  }, 5000), [userListQuery])
 
   const handleGender = (gender: string) => {
     dispatch(userListQuery({
@@ -53,18 +57,24 @@ const UsersContainer = () => {
   }
 
   const handleReset = () => {
+    setKeyword('')
     dispatch(userListQueryReset())
   }
+
+  useEffect(() => {
+    handleDebounce(keyword)
+  }, [keyword])
 
   const props = {
     users: state.users,
     query: state.query,
     sortOrder,
     isLoading: state.isLoading,
+    keyword,
     handlePaginationChange,
     handleSort,
     handleSearch,
-    handleSearchDebounce,
+    handleSearchDebounce: setKeyword,
     handleGender,
     handleReset,
   }

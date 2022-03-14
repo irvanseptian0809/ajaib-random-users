@@ -13,6 +13,7 @@ interface interfaceUsersView {
   query: interfaceQuery,
   sortOrder: 'ascend' | 'descend' | undefined,
   isLoading: boolean,
+  keyword: string,
   handlePaginationChange: (page: number) => void,
   handleSort: (column: string) => number,
   handleSearch: (e: string) => void,
@@ -26,6 +27,7 @@ const UsersView = ({
   query,
   sortOrder,
   isLoading,
+  keyword,
   handlePaginationChange,
   handleSort,
   handleSearch,
@@ -72,7 +74,7 @@ const UsersView = ({
       <Row gutter={16} className="search-section">
         <Col span={6}>
           <Search
-            value={query.keyword === undefined ? '' : query.keyword}
+            value={keyword}
             placeholder="Search"
             onChange={(e) => handleSearchDebounce(e.target.value)}
             onSearch={(e) => handleSearch(e)}
