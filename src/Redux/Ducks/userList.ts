@@ -74,6 +74,7 @@ const reducer = createReducer(INITIAL_STATE, {
     isLoading: true,
     query: {
       ...state.query,
+      page: INITIAL_STATE.query.page,
       ...payload,
     }
   }),

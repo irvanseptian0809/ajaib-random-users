@@ -106,7 +106,7 @@ const UsersView = ({
 
       <div className="pagination">
         <Pagination
-          defaultCurrent={query.page}
+          current={query.page}
           total={100}
           showSizeChanger={false}
           onChange={handlePaginationChange}
